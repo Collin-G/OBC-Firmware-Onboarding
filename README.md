@@ -82,3 +82,6 @@ myFunction(hasToo,
 6. Check the return value of all non-void functions, or cast to void to indicate the return value is useless.
 7. Limit pointer use to a single [dereference](https://en.wikipedia.org/wiki/Dereference_operator), and do not use [function pointers](https://en.wikipedia.org/wiki/Function_pointer).
 8. Compile with all possible warnings active; all warnings should then be addressed before release of the software.
+
+# Git
+test
