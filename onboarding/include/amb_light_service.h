@@ -16,6 +16,9 @@ typedef enum {
 /* USER CODE BEGIN */
 // Define light service queue config here
 
+#define QUEUE_NAME "queue" 
+#define QUEUE_LENGTH 10
+#define QUEUE_SIZE   sizeof(unsigned long)
 /* USER CODE END */
 
 /**

@@ -56,7 +56,14 @@ uint8_t initController(void) {
 
     /* USER CODE BEGIN */
     // Create light timer and check if task/timers were created successfully
-
+    if (lightTimerHandle == NULL) {
+        // Create led timer
+        lightTimerHandle = xTimerCreate(MEASURE_LIGHT_NAME,
+                                    MEASURE_LIGHT_PERIOD,
+                                    MEASURE_LIGHT_AUTORELOAD,
+                                    (void *) 0,
+                                    lightTimerCallback);
+    }
     /* USER CODE END */
 
     return 1;
@@ -70,7 +77,14 @@ static void controllerTask(void * pvParameters) {
     if (lightServiceStatus == 0) {
         /* USER CODE BEGIN */
         // Deal with error when initializing light service task and/or queue
+        sciBASE_t *sci = sciREG;
 
+        uint32_t length = 5; 
+        unsigned char bytes[5] = {'e','r','r','o','r'};
+        unsigned char *p_bytes = &bytes;
+
+        sciPrintText(sci, p_bytes, length);
+        return; 
         /* USER CODE END */
     } else { 
         /* Light service task and queue created successfully */
@@ -78,7 +92,7 @@ static void controllerTask(void * pvParameters) {
         
         /* USER CODE BEGIN */
         // Start light timer
-
+        BaseType_t xReturned = xTimerStart(lightTimerHandle, 0);
         /* USER CODE END */
     }
 
@@ -94,7 +108,9 @@ static void ledTimerCallback(TimerHandle_t xTimer) {
 static void lightTimerCallback(TimerHandle_t xTimer) {
     /* USER CODE BEGIN */
     // Send light event to light service queue
+    ASSERT(xTimer != NULL);
 
+    gioToggleBit(gioPORTB, 1);
     /* USER CODE END */
 }
 
